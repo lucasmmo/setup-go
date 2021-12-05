@@ -34,5 +34,5 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
-      - run: docker build -t lucasmocerinomonteiro/setup-go
+      - run: docker build -t lucasmocerinomonteiro/setup-go .
       - run: echo "Deploy to Dev..."
