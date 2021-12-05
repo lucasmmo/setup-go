@@ -24,15 +24,16 @@ jobs:
 
   deploy-test:
     needs: test-ci
+    env:
+      IMAGE_TAG: ${{ github.sha }}
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-20.04
     concurrency: deploy-to-dev
     environment: dev
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Go ${{ matrix.go }}
-        uses: actions/setup-go@v2
+      - name: Check out the repo
+        uses: actions/checkout@v2
         with:
           go-version: ${{ matrix.go }}
-      - run: docker build -t lucasmocerinomonteiro/setup-go .
+      - run: docker build -t lucasmocerinomonteiro/setup-go:$IMAGE_TAG .
       - run: echo "Deploy to Dev..."
