@@ -1,0 +1,38 @@
+name: Deploy
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  test-ci:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        go: [ '1.14', '1.17' ]
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Go ${{ matrix.go }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - run: go mod tidy
+      - run: go test -v ./...
+
+  deploy-test:
+    needs: test-ci
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-20.04
+    concurrency: deploy-to-dev
+    environment: dev
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Go ${{ matrix.go }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - run: docker build -t lucasmocerinomonteiro/setup-go
+      - run: echo "Deploy to Dev..."
