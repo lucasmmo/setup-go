@@ -15,7 +15,7 @@ var (
 func main() {
 	setup()
 
-	app := app.Setup()
+	app := app.Start()
 	log.Fatal(app.Start(fmt.Sprintf(":%s", PORT)))
 }
 

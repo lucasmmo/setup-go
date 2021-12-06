@@ -1,8 +1,8 @@
-package services
+package hello
 
 import "fmt"
 
-func SayHello(name string) string {
+func Say(name string) string {
 	if name == "" {
 		name = "World"
 	}

@@ -4,14 +4,19 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/lucasmmo/setup-go/pkg/services"
+	"github.com/lucasmmo/setup-go/pkg/hello"
 )
 
-func Setup() *echo.Echo {
+func Start() *echo.Echo {
 	e := echo.New()
-	e.GET("/:name", func(c echo.Context) error {
-		s := services.SayHello(c.Param("name"))
-		return c.String(http.StatusOK, s)
-	})
+	SetupRoutes(e)
 	return e
+}
+
+func SetupRoutes(e *echo.Echo) {
+	e.GET("/:name", func(c echo.Context) error {
+		name := c.Param("name")
+		msg := hello.Say(name)
+		return c.String(http.StatusOK, msg)
+	})
 }

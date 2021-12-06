@@ -33,9 +33,7 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-        with:
-          go-version: ${{ matrix.go }}
-          
+
       - name: Build docker image
         run: docker build -t lucasmocerinomonteiro/setup-go:$IMAGE_TAG .
         
